@@ -3,10 +3,10 @@ from flask import Flask, jsonify, request
 app = Flask(__name__)
 
 emails = [
-    'stevennanda38@gmail.com'
-    , 'stivannuslambaihang1@gmail.com'
-    , 'kezialpn@gmail.com'
-    , 'sheriaamaria24@gmail.com'
+    'stevenxx@mail.com'
+    , 'stivanxx@mail.com'
+    , 'keziaxx@mail.com'
+    , 'sheriaxx@mail.com'
 ]
 
 response = {
