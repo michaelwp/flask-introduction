@@ -1,42 +1,28 @@
-from flask import Flask, jsonify, request, render_template
-from flask_cors import CORS, cross_origin
+from flask import Flask
+from flask_cors import CORS
+from os import getenv
+from dotenv import load_dotenv
+
+from api import router
 
 app = Flask(__name__)
 
-# setup cors
+# default config
+port = 5000
+debug = bool("false")
+
+# loading env from .env file
+load_dotenv()
+
+# middlewares
 cors = CORS(app)
-app.config['CORS_HEADERS'] = 'Content-Type'
 
-emails = [
-    'stevenxx@mail.com'
-    , 'stivanxx@mail.com'
-    , 'keziaxx@mail.com'
-    , 'sheriaxx@mail.com'
-]
-
-response = {
-    'status': 'success'
-    , 'data': emails
-}
-
-
-@app.route("/")
-def hello_world():
-    header = 'Rest API Introduction'
-    return render_template('index.html',header=header), 200
-
-
-@app.route('/emails')
-def get_emails():
-    return jsonify(response), 200
-
-
-@app.route('/emails', methods=['POST'])
-def add_email():
-    emails.append(request.get_json()["email"])
-    return jsonify(response), 201
-
+# router
+app.register_blueprint(router.bp)
 
 # run the application
 if __name__ == "__main__":
-    app.run(debug=True, use_reloader=True, port=5000, threaded=True)
+    app.run(
+        debug=getenv("APP_DEBUG", debug),
+        use_reloader=True, port=getenv("APP_PORT", port),
+        threaded=True)
